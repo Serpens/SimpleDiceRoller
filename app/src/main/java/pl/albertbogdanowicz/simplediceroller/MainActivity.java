@@ -2,7 +2,6 @@ package pl.albertbogdanowicz.simplediceroller;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-//import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,12 +32,10 @@ public class MainActivity extends AppCompatActivity {
         Spinner diceSpinner = (Spinner) findViewById(R.id.diceSpinner);
         Spinner numberSpinner = (Spinner) findViewById(R.id.numberSpinner);
         TextView resultView = (TextView) findViewById(R.id.resultTextView);
-        int numberOfDice = 0;
-        int typeOfDice = 0;
+        int numberOfDice;
+        int typeOfDice;
         numberOfDice = Integer.parseInt(numberSpinner.getSelectedItem().toString());
         typeOfDice = Integer.parseInt(diceSpinner.getSelectedItem().toString());
-        //Log.d("Number", Integer.toString(numberOfDice));
-        //Log.d("Type", Integer.toString(typeOfDice));
         int result = rollDice(numberOfDice, typeOfDice);
         resultView.setText(Integer.toString(result));
     }
