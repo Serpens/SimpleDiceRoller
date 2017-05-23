@@ -1,5 +1,7 @@
 package pl.albertbogdanowicz.simplediceroller;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -14,15 +16,48 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = preferences.edit();
         setContentView(R.layout.activity_main);
-        Spinner diceSpinner = (Spinner) findViewById(R.id.diceSpinner);
-        diceSpinner.setSelection(2);
+        final Spinner diceSpinner = (Spinner) findViewById(R.id.diceSpinner);
+        final Spinner numberSpinner = (Spinner) findViewById(R.id.numberSpinner);
+        final Spinner thresholdSpinner = (Spinner) findViewById(R.id.thresholdSpinner);
+        diceSpinner.setSelection(preferences.getInt("diceSpinner", 2));
+        numberSpinner.setSelection(preferences.getInt("numberSpinner", 0));
+        setThresholdPossibileValues();
+        thresholdSpinner.setSelection(preferences.getInt("thresholdSpinner", 0));
+
         diceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 setThresholdPossibileValues();
+                editor.putInt("diceSpinner", diceSpinner.getSelectedItemPosition());
+                editor.commit();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+        numberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editor.putInt("numberSpinner", numberSpinner.getSelectedItemPosition());
+                editor.commit();
+            }
+
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                return;
+            }
+        });
+        thresholdSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editor.putInt("thresholdSpinner", thresholdSpinner.getSelectedItemPosition());
+                editor.commit();
             }
 
             public void onNothingSelected(AdapterView<?> adapterView) {
